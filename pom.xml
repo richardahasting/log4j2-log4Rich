@@ -26,7 +26,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <log4rich.version>1.0.2</log4rich.version>
+        <log4rich.version>1.0.4</log4rich.version>
         <junit.version>5.10.0</junit.version>
     </properties>
 

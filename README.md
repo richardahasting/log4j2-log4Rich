@@ -357,13 +357,13 @@ This bridge depends on **[log4Rich](https://github.com/user/log4Rich)** - the ul
 <dependency>
     <groupId>com.log4rich</groupId>
     <artifactId>log4Rich</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 
 ```groovy
 // Gradle
-implementation 'com.log4rich:log4Rich:1.0.2'
+implementation 'com.log4rich:log4Rich:1.0.4'
 ```
 
 **Features**: Memory-mapped I/O, batch processing, JSON logging, 2.3M+ messages/second
