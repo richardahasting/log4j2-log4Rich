@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.log4rich</groupId>
+    <artifactId>log4j2-log4Rich</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>log4j2-log4Rich</name>
+    <description>Drop-in log4j2 replacement using log4Rich for ultra-high-performance logging</description>
+    <url>https://github.com/richardahasting/log4j2-log4Rich</url>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <log4rich.version>1.0.2</log4rich.version>
+        <junit.version>5.10.0</junit.version>
+    </properties>
+
+    <dependencies>
+        <!-- log4Rich dependency -->
+        <dependency>
+            <groupId>com.log4rich</groupId>
+            <artifactId>log4Rich</artifactId>
+            <version>${log4rich.version}</version>
+        </dependency>
+
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Compiler plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- Surefire plugin for tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.2</version>
+            </plugin>
+
+            <!-- Shade plugin to create fat jar with log4Rich included -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>log4j2-log4Rich</finalName>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Source plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Javadoc plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                    <encoding>UTF-8</encoding>
+                    <doclint>none</doclint>
+                    <windowTitle>log4j2-log4Rich Bridge API Documentation</windowTitle>
+                    <doctitle>log4j2-log4Rich Bridge API Documentation</doctitle>
+                    <header>&lt;b&gt;log4j2-log4Rich Bridge ${project.version}&lt;/b&gt;</header>
+                    <footer>&lt;b&gt;log4j2-log4Rich Bridge ${project.version}&lt;/b&gt;</footer>
+                    <bottom>
+                        Copyright &#169; 2024 log4Rich Project. All rights reserved.
+                        &lt;br/&gt;High-performance log4j2 to log4Rich bridge with complete API compatibility.
+                    </bottom>
+                    <links>
+                        <link>https://docs.oracle.com/javase/8/docs/api/</link>
+                    </links>
+                    <groups>
+                        <group>
+                            <title>log4j2 API Implementation</title>
+                            <packages>org.apache.logging.log4j*</packages>
+                        </group>
+                        <group>
+                            <title>Bridge Implementation</title>
+                            <packages>com.log4rich.log4j2.bridge*</packages>
+                        </group>
+                    </groups>
+                    <overview>${basedir}/src/main/javadoc/overview.html</overview>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

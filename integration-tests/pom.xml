@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.log4rich</groupId>
+    <artifactId>integration-tests</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>log4j2-log4Rich Integration Tests</name>
+    <description>Integration tests for log4j2-log4Rich bridge with popular Java libraries</description>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <!-- Logging Framework Versions -->
+        <slf4j.version>1.7.36</slf4j.version>
+        <slf4j2.version>2.0.6</slf4j2.version>
+        <log4j2.version>2.20.0</log4j2.version>
+        <commons-logging.version>1.2</commons-logging.version>
+        <log4j1.version>1.2.17</log4j1.version>
+        
+        <!-- Library Versions for Testing -->
+        <spring-boot.version>3.2.1</spring-boot.version>
+        <kafka.version>3.6.1</kafka.version>
+        <hibernate.version>6.4.1.Final</hibernate.version>
+        <netty.version>4.1.104.Final</netty.version>
+        <httpclient5.version>5.3</httpclient5.version>
+        <elasticsearch.version>8.11.3</elasticsearch.version>
+        <camel.version>4.2.0</camel.version>
+        <jackson.version>2.16.1</jackson.version>
+        
+        <!-- Test Dependencies -->
+        <junit.version>5.10.1</junit.version>
+        <testcontainers.version>1.19.3</testcontainers.version>
+        
+        <!-- Our Bridge Version -->
+        <log4j2-log4rich-bridge.version>1.0.0</log4j2-log4rich-bridge.version>
+        <log4j-log4rich-bridge.version>1.0.0</log4j-log4rich-bridge.version>
+    </properties>
+
+    <modules>
+        <module>spring-boot-web</module>
+        <module>kafka-messaging</module>
+        <module>performance-comparison</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Our Bridges -->
+            <dependency>
+                <groupId>com.log4rich</groupId>
+                <artifactId>log4j2-log4Rich</artifactId>
+                <version>${log4j2-log4rich-bridge.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.log4rich</groupId>
+                <artifactId>log4j-log4Rich</artifactId>
+                <version>${log4j-log4rich-bridge.version}</version>
+            </dependency>
+
+            <!-- SLF4J to log4j2 Bridge -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+            
+            <!-- Commons Logging to log4j2 Bridge -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-jcl</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
+
+            <!-- SLF4J API -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <!-- Spring Boot BOM -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Test Dependencies -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${testcontainers.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
+                    <configuration>
+                        <source>8</source>
+                        <target>8</target>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.2.2</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>integration-tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/*IntegrationTest.java</include>
+                                <include>**/*IT.java</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <profile>
+            <id>performance-tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/*PerformanceTest.java</include>
+                            </includes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
