@@ -1,6 +1,9 @@
 package org.apache.logging.log4j;
 
 import org.apache.logging.log4j.message.MessageFactory;
+import org.apache.logging.log4j.spi.Log4RichLoggerContextFactory;
+import org.apache.logging.log4j.spi.LoggerContextFactory;
+import java.net.URI;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -125,34 +128,79 @@ public class LogManager {
     }
     
     // ========== Factory and Context Methods ==========
-    
+
+    /** The singleton LoggerContextFactory instance */
+    private static final LoggerContextFactory CONTEXT_FACTORY = Log4RichLoggerContextFactory.INSTANCE;
+
     /**
-     * Gets the logger factory (returns this LogManager).
+     * Gets the LoggerContextFactory.
+     * This method is required by Spring Boot and other frameworks that use the log4j2 SPI.
+     *
+     * @return the LoggerContextFactory instance
      */
-    public static LoggerFactory getFactory() {
-        return FACTORY_INSTANCE;
+    public static LoggerContextFactory getFactory() {
+        return CONTEXT_FACTORY;
     }
-    
+
     /**
      * Gets the logging context.
-     * For now, returns a simple context wrapper.
+     * Returns the log4Rich logger context implementation.
+     *
+     * @return the LoggerContext instance
      */
-    public static LoggerContext getContext() {
-        return LoggerContextImpl.INSTANCE;
+    public static org.apache.logging.log4j.spi.LoggerContext getContext() {
+        return CONTEXT_FACTORY.getContext(null, null, null, true);
     }
-    
+
     /**
      * Gets the logging context with class loader consideration.
+     *
+     * @param currentContext if true, returns the current context
+     * @return the LoggerContext instance
      */
-    public static LoggerContext getContext(boolean currentContext) {
-        return getContext();
+    public static org.apache.logging.log4j.spi.LoggerContext getContext(boolean currentContext) {
+        return CONTEXT_FACTORY.getContext(null, null, null, currentContext);
     }
-    
+
     /**
      * Gets the logging context for the specified class loader.
+     *
+     * @param loader the class loader
+     * @return the LoggerContext instance
      */
-    public static LoggerContext getContext(ClassLoader loader) {
-        return getContext();
+    public static org.apache.logging.log4j.spi.LoggerContext getContext(ClassLoader loader) {
+        return CONTEXT_FACTORY.getContext(null, loader, null, true);
+    }
+
+    /**
+     * Gets the logging context with full SPI parameters.
+     *
+     * @param fqcn the fully qualified class name of the caller
+     * @param loader the class loader
+     * @param externalContext an external context object
+     * @param currentContext if true, returns the current context
+     * @return the LoggerContext instance
+     */
+    public static org.apache.logging.log4j.spi.LoggerContext getContext(String fqcn, ClassLoader loader,
+                                                                          Object externalContext, boolean currentContext) {
+        return CONTEXT_FACTORY.getContext(fqcn, loader, externalContext, currentContext);
+    }
+
+    /**
+     * Gets the logging context with configuration location.
+     *
+     * @param fqcn the fully qualified class name of the caller
+     * @param loader the class loader
+     * @param externalContext an external context object
+     * @param currentContext if true, returns the current context
+     * @param configLocation the configuration location URI
+     * @param name the context name
+     * @return the LoggerContext instance
+     */
+    public static org.apache.logging.log4j.spi.LoggerContext getContext(String fqcn, ClassLoader loader,
+                                                                          Object externalContext, boolean currentContext,
+                                                                          URI configLocation, String name) {
+        return CONTEXT_FACTORY.getContext(fqcn, loader, externalContext, currentContext, configLocation, name);
     }
     
     // ========== Shutdown Methods ==========
@@ -185,44 +233,4 @@ public class LogManager {
     public static void shutdown(long timeout, java.util.concurrent.TimeUnit timeUnit) {
         shutdown();
     }
-    
-    // ========== Inner Classes for Factory and Context ==========
-    
-    private static final LoggerFactory FACTORY_INSTANCE = new LoggerFactory() {
-        @Override
-        public Logger getLogger(String name) {
-            return LogManager.getLogger(name);
-        }
-        
-        @Override
-        public Logger getLogger(String name, MessageFactory messageFactory) {
-            return LogManager.getLogger(name, messageFactory);
-        }
-    };
-}
-
-/**
- * Simple logger factory interface.
- */
-interface LoggerFactory {
-    Logger getLogger(String name);
-    Logger getLogger(String name, MessageFactory messageFactory);
-}
-
-/**
- * Simple logger context implementation.
- */
-class LoggerContext {
-    public String getName() {
-        return "log4j2-log4Rich-Context";
-    }
-}
-
-/**
- * Default logger context implementation.
- */
-class LoggerContextImpl extends LoggerContext {
-    static final LoggerContext INSTANCE = new LoggerContextImpl();
-    
-    private LoggerContextImpl() {}
 }
