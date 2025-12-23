@@ -1,6 +1,7 @@
 package org.apache.logging.log4j;
 
 import org.apache.logging.log4j.message.MessageFactory;
+import org.apache.logging.log4j.spi.Log4RichLogger;
 import org.apache.logging.log4j.spi.Log4RichLoggerContextFactory;
 import org.apache.logging.log4j.spi.LoggerContextFactory;
 import java.net.URI;
@@ -50,7 +51,7 @@ public class LogManager {
             name = "ROOT";
         }
         
-        return LOGGERS.computeIfAbsent(name, loggerName -> new Logger(loggerName));
+        return LOGGERS.computeIfAbsent(name, loggerName -> new Log4RichLogger(loggerName));
     }
     
     /**
@@ -92,7 +93,7 @@ public class LogManager {
         // For loggers with custom message factories, we create a unique key
         String cacheKey = loggerName + "#" + factory.getClass().getName();
         
-        return LOGGERS.computeIfAbsent(cacheKey, key -> new Logger(loggerName, factory));
+        return LOGGERS.computeIfAbsent(cacheKey, key -> new Log4RichLogger(loggerName, factory));
     }
     
     // ========== Logger Management Methods ==========
