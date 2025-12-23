@@ -29,6 +29,24 @@ public class Marker {
     }
     
     /**
+     * Sets parent markers, replacing any existing parents.
+     * Returns this marker for method chaining.
+     */
+    public Marker setParents(Marker... markers) {
+        if (markers == null || markers.length == 0) {
+            this.parents = new Marker[0];
+        } else {
+            // Filter out nulls and duplicates
+            Marker[] filtered = Arrays.stream(markers)
+                    .filter(m -> m != null)
+                    .distinct()
+                    .toArray(Marker[]::new);
+            this.parents = filtered;
+        }
+        return this;
+    }
+
+    /**
      * Adds parent markers to this marker.
      */
     public Marker addParents(Marker... markers) {

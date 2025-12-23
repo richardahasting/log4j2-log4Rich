@@ -55,6 +55,14 @@ public class LevelTranslator {
     
     /**
      * Reverse translation from log4Rich to log4j2 levels.
+     * Alias for fromLog4Rich for backwards compatibility.
+     */
+    public static Level fromLog4Rich(com.log4rich.core.LogLevel log4RichLevel) {
+        return translateReverse(log4RichLevel);
+    }
+
+    /**
+     * Reverse translation from log4Rich to log4j2 levels.
      */
     public static Level translateReverse(com.log4rich.core.LogLevel log4RichLevel) {
         if (log4RichLevel == null) {
