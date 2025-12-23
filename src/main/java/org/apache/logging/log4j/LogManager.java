@@ -174,6 +174,17 @@ public class LogManager {
     }
 
     /**
+     * Gets the logging context for the specified class loader.
+     *
+     * @param loader the class loader
+     * @param currentContext if true, returns the current context
+     * @return the LoggerContext instance
+     */
+    public static org.apache.logging.log4j.spi.LoggerContext getContext(ClassLoader loader, boolean currentContext) {
+        return CONTEXT_FACTORY.getContext(null, loader, null, currentContext);
+    }
+
+    /**
      * Gets the logging context with full SPI parameters.
      *
      * @param fqcn the fully qualified class name of the caller
