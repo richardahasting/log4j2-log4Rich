@@ -1,7 +1,5 @@
 package org.apache.logging.log4j.spi;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.message.MessageFactory;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +18,9 @@ public class Log4RichLoggerContext implements LoggerContext {
     /** Singleton instance */
     public static final Log4RichLoggerContext INSTANCE = new Log4RichLoggerContext();
 
+    /** Logger cache - stores Log4RichLogger instances which implement ExtendedLogger */
+    private final ConcurrentMap<String, ExtendedLogger> loggers = new ConcurrentHashMap<>();
+
     /** Context objects storage */
     private final ConcurrentMap<String, Object> contextObjects = new ConcurrentHashMap<>();
 
@@ -36,16 +37,17 @@ public class Log4RichLoggerContext implements LoggerContext {
      * {@inheritDoc}
      */
     @Override
-    public Logger getLogger(String name) {
-        return LogManager.getLogger(name);
+    public ExtendedLogger getLogger(String name) {
+        return loggers.computeIfAbsent(name, Log4RichLogger::new);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Logger getLogger(String name, MessageFactory messageFactory) {
-        return LogManager.getLogger(name, messageFactory);
+    public ExtendedLogger getLogger(String name, MessageFactory messageFactory) {
+        String key = name + (messageFactory != null ? ":" + messageFactory.getClass().getName() : "");
+        return loggers.computeIfAbsent(key, k -> new Log4RichLogger(name, messageFactory));
     }
 
     /**
@@ -53,7 +55,7 @@ public class Log4RichLoggerContext implements LoggerContext {
      */
     @Override
     public boolean hasLogger(String name) {
-        return LogManager.exists(name);
+        return loggers.containsKey(name);
     }
 
     /**
@@ -65,9 +67,9 @@ public class Log4RichLoggerContext implements LoggerContext {
             return false;
         }
         String cacheKey = messageFactory != null
-            ? name + "#" + messageFactory.getClass().getName()
+            ? name + ":" + messageFactory.getClass().getName()
             : name;
-        return LogManager.exists(cacheKey);
+        return loggers.containsKey(cacheKey);
     }
 
     /**
@@ -78,8 +80,8 @@ public class Log4RichLoggerContext implements LoggerContext {
         if (name == null || messageFactoryClass == null) {
             return false;
         }
-        String cacheKey = name + "#" + messageFactoryClass.getName();
-        return LogManager.exists(cacheKey);
+        String cacheKey = name + ":" + messageFactoryClass.getName();
+        return loggers.containsKey(cacheKey);
     }
 
     /**

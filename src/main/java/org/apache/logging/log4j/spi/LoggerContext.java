@@ -1,6 +1,5 @@
 package org.apache.logging.log4j.spi;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.MessageFactory;
 
 /**
@@ -11,6 +10,9 @@ import org.apache.logging.log4j.message.MessageFactory;
  * context-specific objects. It is implemented by log4Rich to provide
  * full log4j2 API compatibility.</p>
  *
+ * <p>IMPORTANT: getLogger() methods must return ExtendedLogger for
+ * log4j-slf4j2-impl compatibility.</p>
+ *
  * @since 1.0.0
  */
 public interface LoggerContext {
@@ -19,18 +21,18 @@ public interface LoggerContext {
      * Gets a logger with the specified name.
      *
      * @param name the logger name
-     * @return the logger instance
+     * @return the logger instance (must be ExtendedLogger for SLF4J binding)
      */
-    Logger getLogger(String name);
+    ExtendedLogger getLogger(String name);
 
     /**
      * Gets a logger with the specified name and message factory.
      *
      * @param name the logger name
      * @param messageFactory the message factory to use
-     * @return the logger instance
+     * @return the logger instance (must be ExtendedLogger for SLF4J binding)
      */
-    Logger getLogger(String name, MessageFactory messageFactory);
+    ExtendedLogger getLogger(String name, MessageFactory messageFactory);
 
     /**
      * Gets a logger for the specified class.
@@ -38,7 +40,7 @@ public interface LoggerContext {
      * @param cls the class
      * @return the logger instance
      */
-    default Logger getLogger(Class<?> cls) {
+    default ExtendedLogger getLogger(Class<?> cls) {
         return getLogger(cls != null ? cls.getName() : "ROOT");
     }
 
@@ -49,7 +51,7 @@ public interface LoggerContext {
      * @param messageFactory the message factory to use
      * @return the logger instance
      */
-    default Logger getLogger(Class<?> cls, MessageFactory messageFactory) {
+    default ExtendedLogger getLogger(Class<?> cls, MessageFactory messageFactory) {
         return getLogger(cls != null ? cls.getName() : "ROOT", messageFactory);
     }
 
