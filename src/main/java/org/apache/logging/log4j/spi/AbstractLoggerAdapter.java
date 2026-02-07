@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @param <L> The Logger type being adapted to.
  */
-public abstract class AbstractLoggerAdapter<L> {
+public abstract class AbstractLoggerAdapter<L> implements LoggerAdapter<L> {
 
     /**
      * Map of LoggerContext to a map of logger names to Loggers.
