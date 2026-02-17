@@ -7,7 +7,7 @@
 
     <groupId>com.log4rich</groupId>
     <artifactId>log4j2-log4Rich</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <packaging>jar</packaging>
 
     <name>log4j2-log4Rich</name>
