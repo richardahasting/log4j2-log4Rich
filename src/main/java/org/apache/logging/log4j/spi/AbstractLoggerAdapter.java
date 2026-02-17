@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.util.LoaderUtil;
+
 /**
  * Abstract base class for logger adapters (like SLF4J adapter).
  * Provides caching of logger instances per LoggerContext.
@@ -62,6 +65,25 @@ public abstract class AbstractLoggerAdapter<L> implements LoggerAdapter<L> {
      * @return The current LoggerContext.
      */
     protected abstract LoggerContext getContext();
+
+    /**
+     * Gets the LoggerContext for the given class's classloader.
+     * Required by commons-logging 1.3.5+ which calls this from
+     * Log4jApiLogFactory$LogAdapter.getContext().
+     *
+     * @param cls the class whose classloader determines the context, or null
+     * @return the LoggerContext for the resolved classloader
+     */
+    protected LoggerContext getContext(Class<?> cls) {
+        ClassLoader loader = null;
+        if (cls != null) {
+            loader = cls.getClassLoader();
+        }
+        if (loader == null) {
+            loader = LoaderUtil.getThreadContextClassLoader();
+        }
+        return LogManager.getContext(loader, false);
+    }
 
     /**
      * Closes the adapter and releases resources.
