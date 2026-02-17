@@ -1,6 +1,8 @@
 package org.apache.logging.log4j;
 
 import com.log4rich.log4j2.bridge.ContextBridge;
+import org.apache.logging.log4j.spi.ReadOnlyThreadContextMap;
+import org.apache.logging.log4j.spi.ThreadContextMap;
 import java.util.Map;
 import java.util.List;
 
@@ -19,23 +21,23 @@ public class ThreadContext {
      * Puts a key-value pair into the current thread's context map.
      */
     public static void put(String key, String value) {
-        ContextBridge.put(key, value);
+        ContextBridge.INSTANCE.put(key, value);
     }
     
     /**
      * Gets a value from the current thread's context map.
      */
     public static String get(String key) {
-        return ContextBridge.get(key);
+        return ContextBridge.INSTANCE.get(key);
     }
     
     /**
      * Removes a key from the current thread's context map.
      */
     public static void remove(String key) {
-        ContextBridge.remove(key);
+        ContextBridge.INSTANCE.remove(key);
     }
-    
+
     /**
      * Clears the current thread's context map.
      */
@@ -54,14 +56,14 @@ public class ThreadContext {
      * Checks if the context map contains the specified key.
      */
     public static boolean containsKey(String key) {
-        return ContextBridge.containsKey(key);
+        return ContextBridge.INSTANCE.containsKey(key);
     }
     
     /**
      * Checks if the context map is empty.
      */
     public static boolean isEmpty() {
-        return ContextBridge.isEmpty() && ContextBridge.getDepth() == 0;
+        return ContextBridge.INSTANCE.isEmpty() && ContextBridge.getDepth() == 0;
     }
     
     /**
@@ -154,6 +156,28 @@ public class ThreadContext {
         }
     }
     
+    // ========== SPI Access ==========
+
+    /**
+     * Gets the ThreadContextMap instance.
+     *
+     * @return the ThreadContextMap implementation
+     */
+    public static ThreadContextMap getThreadContextMap() {
+        return ContextBridge.INSTANCE;
+    }
+
+    /**
+     * Gets a read-only view of the thread context map.
+     *
+     * @return the ReadOnlyThreadContextMap, or null
+     */
+    public static ReadOnlyThreadContextMap getThreadContextMap2() {
+        // ContextBridge doesn't implement ReadOnlyThreadContextMap separately;
+        // return null as per log4j2 convention when not available
+        return null;
+    }
+
     // ========== Convenience Methods ==========
     
     /**

@@ -116,14 +116,14 @@ public class Level implements Comparable<Level> {
      * Checks if this level is more specific than the specified level.
      */
     public boolean isMoreSpecificThan(Level level) {
-        return this.intLevel >= level.intLevel;
+        return this.intLevel <= level.intLevel;
     }
-    
+
     /**
      * Checks if this level is less specific than the specified level.
      */
     public boolean isLessSpecificThan(Level level) {
-        return this.intLevel <= level.intLevel;
+        return this.intLevel >= level.intLevel;
     }
     
     /**

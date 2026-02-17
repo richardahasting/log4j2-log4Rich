@@ -233,6 +233,46 @@ public class StatusLogger implements Logger {
         trace(supplier, throwable);
     }
 
+    @Override
+    public void trace(CharSequence message) {
+        logStatus(Level.TRACE, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void trace(CharSequence message, Throwable throwable) {
+        logStatus(Level.TRACE, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void trace(Marker marker, CharSequence message) {
+        trace(message);
+    }
+
+    @Override
+    public void trace(Marker marker, CharSequence message, Throwable throwable) {
+        trace(message, throwable);
+    }
+
+    @Override
+    public void trace(Object message) {
+        logStatus(Level.TRACE, String.valueOf(message), null);
+    }
+
+    @Override
+    public void trace(Object message, Throwable throwable) {
+        logStatus(Level.TRACE, String.valueOf(message), throwable);
+    }
+
+    @Override
+    public void trace(Marker marker, Object message) {
+        trace(message);
+    }
+
+    @Override
+    public void trace(Marker marker, Object message, Throwable throwable) {
+        trace(message, throwable);
+    }
+
     // DEBUG
     @Override
     public void debug(String message) {
@@ -326,6 +366,46 @@ public class StatusLogger implements Logger {
     @Override
     public void debug(Marker marker, Supplier<?> supplier, Throwable throwable) {
         debug(supplier, throwable);
+    }
+
+    @Override
+    public void debug(CharSequence message) {
+        logStatus(Level.DEBUG, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void debug(CharSequence message, Throwable throwable) {
+        logStatus(Level.DEBUG, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void debug(Marker marker, CharSequence message) {
+        debug(message);
+    }
+
+    @Override
+    public void debug(Marker marker, CharSequence message, Throwable throwable) {
+        debug(message, throwable);
+    }
+
+    @Override
+    public void debug(Object message) {
+        logStatus(Level.DEBUG, String.valueOf(message), null);
+    }
+
+    @Override
+    public void debug(Object message, Throwable throwable) {
+        logStatus(Level.DEBUG, String.valueOf(message), throwable);
+    }
+
+    @Override
+    public void debug(Marker marker, Object message) {
+        debug(message);
+    }
+
+    @Override
+    public void debug(Marker marker, Object message, Throwable throwable) {
+        debug(message, throwable);
     }
 
     // INFO
@@ -423,6 +503,46 @@ public class StatusLogger implements Logger {
         info(supplier, throwable);
     }
 
+    @Override
+    public void info(CharSequence message) {
+        logStatus(Level.INFO, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void info(CharSequence message, Throwable throwable) {
+        logStatus(Level.INFO, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void info(Marker marker, CharSequence message) {
+        info(message);
+    }
+
+    @Override
+    public void info(Marker marker, CharSequence message, Throwable throwable) {
+        info(message, throwable);
+    }
+
+    @Override
+    public void info(Object message) {
+        logStatus(Level.INFO, String.valueOf(message), null);
+    }
+
+    @Override
+    public void info(Object message, Throwable throwable) {
+        logStatus(Level.INFO, String.valueOf(message), throwable);
+    }
+
+    @Override
+    public void info(Marker marker, Object message) {
+        info(message);
+    }
+
+    @Override
+    public void info(Marker marker, Object message, Throwable throwable) {
+        info(message, throwable);
+    }
+
     // WARN
     @Override
     public void warn(String message) {
@@ -516,6 +636,46 @@ public class StatusLogger implements Logger {
     @Override
     public void warn(Marker marker, Supplier<?> supplier, Throwable throwable) {
         warn(supplier, throwable);
+    }
+
+    @Override
+    public void warn(CharSequence message) {
+        logStatus(Level.WARN, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void warn(CharSequence message, Throwable throwable) {
+        logStatus(Level.WARN, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void warn(Marker marker, CharSequence message) {
+        warn(message);
+    }
+
+    @Override
+    public void warn(Marker marker, CharSequence message, Throwable throwable) {
+        warn(message, throwable);
+    }
+
+    @Override
+    public void warn(Object message) {
+        logStatus(Level.WARN, String.valueOf(message), null);
+    }
+
+    @Override
+    public void warn(Object message, Throwable throwable) {
+        logStatus(Level.WARN, String.valueOf(message), throwable);
+    }
+
+    @Override
+    public void warn(Marker marker, Object message) {
+        warn(message);
+    }
+
+    @Override
+    public void warn(Marker marker, Object message, Throwable throwable) {
+        warn(message, throwable);
     }
 
     // ERROR
@@ -613,6 +773,46 @@ public class StatusLogger implements Logger {
         error(supplier, throwable);
     }
 
+    @Override
+    public void error(CharSequence message) {
+        logStatus(Level.ERROR, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void error(CharSequence message, Throwable throwable) {
+        logStatus(Level.ERROR, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void error(Marker marker, CharSequence message) {
+        error(message);
+    }
+
+    @Override
+    public void error(Marker marker, CharSequence message, Throwable throwable) {
+        error(message, throwable);
+    }
+
+    @Override
+    public void error(Object message) {
+        logStatus(Level.ERROR, String.valueOf(message), null);
+    }
+
+    @Override
+    public void error(Object message, Throwable throwable) {
+        logStatus(Level.ERROR, String.valueOf(message), throwable);
+    }
+
+    @Override
+    public void error(Marker marker, Object message) {
+        error(message);
+    }
+
+    @Override
+    public void error(Marker marker, Object message, Throwable throwable) {
+        error(message, throwable);
+    }
+
     // FATAL
     @Override
     public void fatal(String message) {
@@ -708,6 +908,46 @@ public class StatusLogger implements Logger {
         fatal(supplier, throwable);
     }
 
+    @Override
+    public void fatal(CharSequence message) {
+        logStatus(Level.FATAL, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void fatal(CharSequence message, Throwable throwable) {
+        logStatus(Level.FATAL, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void fatal(Marker marker, CharSequence message) {
+        fatal(message);
+    }
+
+    @Override
+    public void fatal(Marker marker, CharSequence message, Throwable throwable) {
+        fatal(message, throwable);
+    }
+
+    @Override
+    public void fatal(Object message) {
+        logStatus(Level.FATAL, String.valueOf(message), null);
+    }
+
+    @Override
+    public void fatal(Object message, Throwable throwable) {
+        logStatus(Level.FATAL, String.valueOf(message), throwable);
+    }
+
+    @Override
+    public void fatal(Marker marker, Object message) {
+        fatal(message);
+    }
+
+    @Override
+    public void fatal(Marker marker, Object message, Throwable throwable) {
+        fatal(message, throwable);
+    }
+
     // Generic log methods
     @Override
     public void log(Level level, String message) {
@@ -781,6 +1021,46 @@ public class StatusLogger implements Logger {
     @Override
     public void log(Level level, Marker marker, Supplier<?> supplier, Throwable throwable) {
         log(level, supplier, throwable);
+    }
+
+    @Override
+    public void log(Level level, CharSequence message) {
+        logStatus(level, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void log(Level level, CharSequence message, Throwable throwable) {
+        logStatus(level, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void log(Level level, Marker marker, CharSequence message) {
+        log(level, message);
+    }
+
+    @Override
+    public void log(Level level, Marker marker, CharSequence message, Throwable throwable) {
+        log(level, message, throwable);
+    }
+
+    @Override
+    public void log(Level level, Object message) {
+        logStatus(level, String.valueOf(message), null);
+    }
+
+    @Override
+    public void log(Level level, Object message, Throwable throwable) {
+        logStatus(level, String.valueOf(message), throwable);
+    }
+
+    @Override
+    public void log(Level level, Marker marker, Object message) {
+        log(level, message);
+    }
+
+    @Override
+    public void log(Level level, Marker marker, Object message, Throwable throwable) {
+        log(level, message, throwable);
     }
 
     /**

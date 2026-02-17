@@ -770,6 +770,293 @@ public class Log4RichLogger implements Logger, ExtendedLogger {
         LoggingEngine.log(log4RichLogger, level, marker, supplier, throwable);
     }
 
+    // CharSequence/Object overloads for TRACE
+    @Override
+    public void trace(CharSequence message) {
+        LoggingEngine.logSimple(log4RichLogger, Level.TRACE, message != null ? message.toString() : null);
+    }
+
+    @Override
+    public void trace(CharSequence message, Throwable throwable) {
+        LoggingEngine.logWithException(log4RichLogger, Level.TRACE, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void trace(Marker marker, CharSequence message) {
+        LoggingEngine.log(log4RichLogger, Level.TRACE, marker, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void trace(Marker marker, CharSequence message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.TRACE, marker, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void trace(Object message) {
+        LoggingEngine.log(log4RichLogger, Level.TRACE, null, message, null);
+    }
+
+    @Override
+    public void trace(Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.TRACE, null, message, throwable);
+    }
+
+    @Override
+    public void trace(Marker marker, Object message) {
+        LoggingEngine.log(log4RichLogger, Level.TRACE, marker, message, null);
+    }
+
+    @Override
+    public void trace(Marker marker, Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.TRACE, marker, message, throwable);
+    }
+
+    // CharSequence/Object overloads for DEBUG
+    @Override
+    public void debug(CharSequence message) {
+        LoggingEngine.logSimple(log4RichLogger, Level.DEBUG, message != null ? message.toString() : null);
+    }
+
+    @Override
+    public void debug(CharSequence message, Throwable throwable) {
+        LoggingEngine.logWithException(log4RichLogger, Level.DEBUG, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void debug(Marker marker, CharSequence message) {
+        LoggingEngine.log(log4RichLogger, Level.DEBUG, marker, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void debug(Marker marker, CharSequence message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.DEBUG, marker, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void debug(Object message) {
+        LoggingEngine.log(log4RichLogger, Level.DEBUG, null, message, null);
+    }
+
+    @Override
+    public void debug(Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.DEBUG, null, message, throwable);
+    }
+
+    @Override
+    public void debug(Marker marker, Object message) {
+        LoggingEngine.log(log4RichLogger, Level.DEBUG, marker, message, null);
+    }
+
+    @Override
+    public void debug(Marker marker, Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.DEBUG, marker, message, throwable);
+    }
+
+    // CharSequence/Object overloads for INFO
+    @Override
+    public void info(CharSequence message) {
+        LoggingEngine.logSimple(log4RichLogger, Level.INFO, message != null ? message.toString() : null);
+    }
+
+    @Override
+    public void info(CharSequence message, Throwable throwable) {
+        LoggingEngine.logWithException(log4RichLogger, Level.INFO, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void info(Marker marker, CharSequence message) {
+        LoggingEngine.log(log4RichLogger, Level.INFO, marker, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void info(Marker marker, CharSequence message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.INFO, marker, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void info(Object message) {
+        LoggingEngine.log(log4RichLogger, Level.INFO, null, message, null);
+    }
+
+    @Override
+    public void info(Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.INFO, null, message, throwable);
+    }
+
+    @Override
+    public void info(Marker marker, Object message) {
+        LoggingEngine.log(log4RichLogger, Level.INFO, marker, message, null);
+    }
+
+    @Override
+    public void info(Marker marker, Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.INFO, marker, message, throwable);
+    }
+
+    // CharSequence/Object overloads for WARN
+    @Override
+    public void warn(CharSequence message) {
+        LoggingEngine.logSimple(log4RichLogger, Level.WARN, message != null ? message.toString() : null);
+    }
+
+    @Override
+    public void warn(CharSequence message, Throwable throwable) {
+        LoggingEngine.logWithException(log4RichLogger, Level.WARN, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void warn(Marker marker, CharSequence message) {
+        LoggingEngine.log(log4RichLogger, Level.WARN, marker, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void warn(Marker marker, CharSequence message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.WARN, marker, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void warn(Object message) {
+        LoggingEngine.log(log4RichLogger, Level.WARN, null, message, null);
+    }
+
+    @Override
+    public void warn(Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.WARN, null, message, throwable);
+    }
+
+    @Override
+    public void warn(Marker marker, Object message) {
+        LoggingEngine.log(log4RichLogger, Level.WARN, marker, message, null);
+    }
+
+    @Override
+    public void warn(Marker marker, Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.WARN, marker, message, throwable);
+    }
+
+    // CharSequence/Object overloads for ERROR
+    @Override
+    public void error(CharSequence message) {
+        LoggingEngine.logSimple(log4RichLogger, Level.ERROR, message != null ? message.toString() : null);
+    }
+
+    @Override
+    public void error(CharSequence message, Throwable throwable) {
+        LoggingEngine.logWithException(log4RichLogger, Level.ERROR, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void error(Marker marker, CharSequence message) {
+        LoggingEngine.log(log4RichLogger, Level.ERROR, marker, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void error(Marker marker, CharSequence message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.ERROR, marker, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void error(Object message) {
+        LoggingEngine.log(log4RichLogger, Level.ERROR, null, message, null);
+    }
+
+    @Override
+    public void error(Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.ERROR, null, message, throwable);
+    }
+
+    @Override
+    public void error(Marker marker, Object message) {
+        LoggingEngine.log(log4RichLogger, Level.ERROR, marker, message, null);
+    }
+
+    @Override
+    public void error(Marker marker, Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.ERROR, marker, message, throwable);
+    }
+
+    // CharSequence/Object overloads for FATAL
+    @Override
+    public void fatal(CharSequence message) {
+        LoggingEngine.logSimple(log4RichLogger, Level.FATAL, message != null ? message.toString() : null);
+    }
+
+    @Override
+    public void fatal(CharSequence message, Throwable throwable) {
+        LoggingEngine.logWithException(log4RichLogger, Level.FATAL, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void fatal(Marker marker, CharSequence message) {
+        LoggingEngine.log(log4RichLogger, Level.FATAL, marker, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void fatal(Marker marker, CharSequence message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.FATAL, marker, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void fatal(Object message) {
+        LoggingEngine.log(log4RichLogger, Level.FATAL, null, message, null);
+    }
+
+    @Override
+    public void fatal(Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.FATAL, null, message, throwable);
+    }
+
+    @Override
+    public void fatal(Marker marker, Object message) {
+        LoggingEngine.log(log4RichLogger, Level.FATAL, marker, message, null);
+    }
+
+    @Override
+    public void fatal(Marker marker, Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, Level.FATAL, marker, message, throwable);
+    }
+
+    // Generic level CharSequence/Object overloads
+    @Override
+    public void log(Level level, CharSequence message) {
+        LoggingEngine.logSimple(log4RichLogger, level, message != null ? message.toString() : null);
+    }
+
+    @Override
+    public void log(Level level, CharSequence message, Throwable throwable) {
+        LoggingEngine.logWithException(log4RichLogger, level, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void log(Level level, Marker marker, CharSequence message) {
+        LoggingEngine.log(log4RichLogger, level, marker, message != null ? message.toString() : null, null);
+    }
+
+    @Override
+    public void log(Level level, Marker marker, CharSequence message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, level, marker, message != null ? message.toString() : null, throwable);
+    }
+
+    @Override
+    public void log(Level level, Object message) {
+        LoggingEngine.log(log4RichLogger, level, null, message, null);
+    }
+
+    @Override
+    public void log(Level level, Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, level, null, message, throwable);
+    }
+
+    @Override
+    public void log(Level level, Marker marker, Object message) {
+        LoggingEngine.log(log4RichLogger, level, marker, message, null);
+    }
+
+    @Override
+    public void log(Level level, Marker marker, Object message, Throwable throwable) {
+        LoggingEngine.log(log4RichLogger, level, marker, message, throwable);
+    }
+
     // ========== logIfEnabled implementations ==========
 
     @Override

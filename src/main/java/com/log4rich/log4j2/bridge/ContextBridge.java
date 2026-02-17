@@ -1,109 +1,84 @@
 package com.log4rich.log4j2.bridge;
 
+import org.apache.logging.log4j.spi.ThreadContextMap2;
+
+import java.util.ArrayList;
+import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Bridges log4j2 ThreadContext to log4Rich context system.
  * Manages thread-local context data and NDC stack.
+ * Implements {@link ThreadContextMap2} for SPI compatibility.
+ *
+ * <p>Instance methods satisfy the ThreadContextMap/ThreadContextMap2 interfaces.
+ * Use the {@link #INSTANCE} singleton for SPI access. Static helper methods
+ * are provided for NDC operations and bulk context access that don't overlap
+ * with the interface.</p>
  */
-public class ContextBridge {
-    
+public class ContextBridge implements ThreadContextMap2 {
+
+    /** Singleton instance for SPI access. */
+    public static final ContextBridge INSTANCE = new ContextBridge();
+
     // Thread-local storage for context data (MDC equivalent)
-    private static final ThreadLocal<Map<String, String>> CONTEXT_MAP = 
+    private static final ThreadLocal<Map<String, String>> CONTEXT_MAP =
         ThreadLocal.withInitial(ConcurrentHashMap::new);
-    
+
     // Thread-local storage for nested diagnostic context (NDC)
-    private static final ThreadLocal<java.util.Deque<String>> CONTEXT_STACK = 
-        ThreadLocal.withInitial(java.util.ArrayDeque::new);
-    
+    private static final ThreadLocal<Deque<String>> CONTEXT_STACK =
+        ThreadLocal.withInitial(ArrayDeque::new);
+
     /**
      * Applies current thread context to log4Rich.
-     * This would typically integrate with log4Rich's context system.
      */
     public static void applyThreadContext() {
-        // For now, this is a placeholder
-        // In a full implementation, this would:
-        // 1. Get current thread context
-        // 2. Apply it to log4Rich's context system
-        // 3. Handle both MDC and NDC data
-        
         Map<String, String> context = CONTEXT_MAP.get();
         if (!context.isEmpty()) {
             // Apply context to log4Rich
-            // log4Rich.setContext(context);
         }
     }
-    
+
+    // ========== Static context access (no interface conflict) ==========
+
     /**
      * Gets the current thread's context map.
      */
     public static Map<String, String> getContext() {
         return new ConcurrentHashMap<>(CONTEXT_MAP.get());
     }
-    
+
     /**
      * Gets an immutable copy of the current context.
      */
     public static Map<String, String> getImmutableContext() {
         Map<String, String> context = CONTEXT_MAP.get();
-        return context.isEmpty() ? 
-            java.util.Collections.emptyMap() : 
-            java.util.Collections.unmodifiableMap(new ConcurrentHashMap<>(context));
+        return context.isEmpty()
+            ? Collections.emptyMap()
+            : Collections.unmodifiableMap(new ConcurrentHashMap<>(context));
     }
-    
+
     /**
-     * Puts a key-value pair into the current thread's context.
-     */
-    public static void put(String key, String value) {
-        if (key != null) {
-            if (value == null) {
-                CONTEXT_MAP.get().remove(key);
-            } else {
-                CONTEXT_MAP.get().put(key, value);
-            }
-        }
-    }
-    
-    /**
-     * Gets a value from the current thread's context.
-     */
-    public static String get(String key) {
-        return key != null ? CONTEXT_MAP.get().get(key) : null;
-    }
-    
-    /**
-     * Removes a key from the current thread's context.
-     */
-    public static void remove(String key) {
-        if (key != null) {
-            CONTEXT_MAP.get().remove(key);
-        }
-    }
-    
-    /**
-     * Clears the current thread's context.
+     * Clears the current thread's context map.
      */
     public static void clearContext() {
         CONTEXT_MAP.get().clear();
     }
-    
+
     /**
-     * Checks if the context contains a specific key.
+     * Clears both context map and stack.
      */
-    public static boolean containsKey(String key) {
-        return key != null && CONTEXT_MAP.get().containsKey(key);
+    public static void clearAll() {
+        clearContext();
+        clearStack();
     }
-    
-    /**
-     * Checks if the context is empty.
-     */
-    public static boolean isEmpty() {
-        return CONTEXT_MAP.get().isEmpty();
-    }
-    
-    // NDC (Nested Diagnostic Context) operations
-    
+
+    // ========== Static NDC operations ==========
+
     /**
      * Pushes a value onto the NDC stack.
      */
@@ -112,52 +87,115 @@ public class ContextBridge {
             CONTEXT_STACK.get().push(value);
         }
     }
-    
+
     /**
      * Pops a value from the NDC stack.
      */
     public static String pop() {
-        java.util.Deque<String> stack = CONTEXT_STACK.get();
+        Deque<String> stack = CONTEXT_STACK.get();
         return stack.isEmpty() ? null : stack.pop();
     }
-    
+
     /**
      * Peeks at the top of the NDC stack without removing it.
      */
     public static String peek() {
-        java.util.Deque<String> stack = CONTEXT_STACK.get();
+        Deque<String> stack = CONTEXT_STACK.get();
         return stack.isEmpty() ? null : stack.peek();
     }
-    
+
     /**
      * Gets the depth of the NDC stack.
      */
     public static int getDepth() {
         return CONTEXT_STACK.get().size();
     }
-    
+
     /**
      * Clears the NDC stack.
      */
     public static void clearStack() {
         CONTEXT_STACK.get().clear();
     }
-    
+
     /**
      * Gets an immutable copy of the current NDC stack.
      */
-    public static java.util.List<String> getImmutableStack() {
-        java.util.Deque<String> stack = CONTEXT_STACK.get();
-        return stack.isEmpty() ? 
-            java.util.Collections.emptyList() : 
-            java.util.Collections.unmodifiableList(new java.util.ArrayList<>(stack));
+    public static List<String> getImmutableStack() {
+        Deque<String> stack = CONTEXT_STACK.get();
+        return stack.isEmpty()
+            ? Collections.emptyList()
+            : Collections.unmodifiableList(new ArrayList<>(stack));
     }
-    
-    /**
-     * Clears both context map and stack.
-     */
-    public static void clearAll() {
+
+    // ========== ThreadContextMap interface (instance methods) ==========
+
+    @Override
+    public void put(final String key, final String value) {
+        if (key != null) {
+            if (value == null) {
+                CONTEXT_MAP.get().remove(key);
+            } else {
+                CONTEXT_MAP.get().put(key, value);
+            }
+        }
+    }
+
+    @Override
+    public String get(final String key) {
+        return key != null ? CONTEXT_MAP.get().get(key) : null;
+    }
+
+    @Override
+    public void remove(final String key) {
+        if (key != null) {
+            CONTEXT_MAP.get().remove(key);
+        }
+    }
+
+    @Override
+    public boolean containsKey(final String key) {
+        return key != null && CONTEXT_MAP.get().containsKey(key);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return CONTEXT_MAP.get().isEmpty();
+    }
+
+    @Override
+    public void clear() {
         clearContext();
-        clearStack();
+    }
+
+    @Override
+    public Map<String, String> getCopy() {
+        return getContext();
+    }
+
+    @Override
+    public Map<String, String> getImmutableMapOrNull() {
+        Map<String, String> context = CONTEXT_MAP.get();
+        return context.isEmpty() ? null : Collections.unmodifiableMap(new ConcurrentHashMap<>(context));
+    }
+
+    // ========== ThreadContextMap2 interface ==========
+
+    @Override
+    public void putAll(Map<String, String> map) {
+        if (map != null) {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                put(entry.getKey(), entry.getValue());
+            }
+        }
+    }
+
+    @Override
+    public void removeAll(Iterable<String> keys) {
+        if (keys != null) {
+            for (String key : keys) {
+                remove(key);
+            }
+        }
     }
 }

@@ -26,6 +26,6 @@ public class ThreadContextProvider implements ContextProvider {
     
     @Override
     public boolean hasContext() {
-        return !ContextBridge.isEmpty();
+        return !ContextBridge.INSTANCE.isEmpty();
     }
 }
