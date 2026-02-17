@@ -101,13 +101,6 @@ public interface ExtendedLogger extends org.apache.logging.log4j.Logger {
      */
     MessageFactory getMessageFactory();
 
-    /**
-     * Gets the logging level.
-     *
-     * @return The logging level.
-     */
-    Level getLevel();
-
     // ========== logIfEnabled methods ==========
 
     /**

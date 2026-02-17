@@ -14,6 +14,13 @@ public interface Logger {
 
     MessageFactory getMessageFactory();
 
+    /**
+     * Gets the current logging level for this logger.
+     *
+     * @return the current Level.
+     */
+    Level getLevel();
+
     // Level checking
     boolean isTraceEnabled();
     boolean isTraceEnabled(Marker marker);

@@ -62,6 +62,11 @@ public class StatusLogger implements Logger {
         return messageFactory;
     }
 
+    @Override
+    public Level getLevel() {
+        return statusLevel;
+    }
+
     // Level checking - based on status level
     @Override
     public boolean isTraceEnabled() {

@@ -71,4 +71,19 @@ public interface LoggerContextFactory {
     default boolean isClassLoaderDependent() {
         return true;
     }
+
+    /**
+     * Shuts down the logging system.
+     *
+     * <p>Called by {@link org.apache.logging.log4j.LogManager#shutdown()} and
+     * by frameworks like Spring Boot during application shutdown.</p>
+     *
+     * @param fqcn the fully qualified class name of the caller
+     * @param loader the class loader (may be null)
+     * @param currentContext if true, shuts down the current context only
+     * @param allContexts if true, shuts down all contexts
+     */
+    default void shutdown(String fqcn, ClassLoader loader, boolean currentContext, boolean allContexts) {
+        // Default no-op implementation
+    }
 }
