@@ -350,7 +350,7 @@ log4rich.context.ndc=true
 ## Related Projects
 
 ### Core Logging Framework
-This bridge depends on **[log4Rich](https://github.com/user/log4Rich)** - the ultra-high-performance Java logging framework:
+This bridge depends on **[log4Rich](https://github.com/richardahasting/log4Rich)** - the ultra-high-performance Java logging framework:
 
 ```xml
 <!-- Maven -->
@@ -369,7 +369,7 @@ implementation 'com.log4rich:log4Rich:1.0.4'
 **Features**: Memory-mapped I/O, batch processing, JSON logging, 2.3M+ messages/second
 
 ### Legacy log4j 1.x Bridge
-For applications using legacy log4j 1.x, use **[log4j-log4Rich](https://github.com/user/log4j-log4Rich)**:
+For applications using legacy log4j 1.x, use **[log4j-log4Rich](https://github.com/richardahasting/log4j-log4Rich)**:
 
 ```xml
 <!-- Maven -->
@@ -579,7 +579,7 @@ logger.debug(() -> "Complex message: " + buildComplexMessage());
 ### Development Setup
 
 ```bash
-git clone https://github.com/yourorg/log4j2-log4Rich.git
+git clone https://github.com/richardahasting/log4j2-log4Rich.git
 cd log4j2-log4Rich
 mvn clean install
 ```
