@@ -5,7 +5,7 @@
          http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.log4rich</groupId>
+    <groupId>io.github.richardahasting</groupId>
     <artifactId>log4j2-log4Rich</artifactId>
     <version>1.0.6</version>
     <packaging>jar</packaging>
@@ -22,18 +22,32 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>richardahasting</id>
+            <name>Richard Hasting</name>
+            <email>richard@hastingtx.org</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/richardahasting/log4j2-log4Rich.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/richardahasting/log4j2-log4Rich.git</developerConnection>
+        <url>https://github.com/richardahasting/log4j2-log4Rich/tree/main</url>
+    </scm>
+
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <log4rich.version>1.0.7</log4rich.version>
+        <log4rich.version>1.0.8</log4rich.version>
         <junit.version>5.10.0</junit.version>
     </properties>
 
     <dependencies>
         <!-- log4Rich dependency -->
         <dependency>
-            <groupId>com.log4rich</groupId>
+            <groupId>io.github.richardahasting</groupId>
             <artifactId>log4Rich</artifactId>
             <version>${log4rich.version}</version>
         </dependency>
@@ -156,4 +170,41 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <!-- Release profile: GPG-signs artifacts and publishes to Maven Central
+             via the Sonatype Central Portal. Sources+javadoc jars are already
+             attached by the main build. Activate with `mvn -Prelease deploy`;
+             requires a GPG key and a `central` server entry in ~/.m2/settings.xml. -->
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.2.4</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.7.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
